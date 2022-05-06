@@ -1,0 +1,1068 @@
+
+ATRIBUTOS PERSONALIZADOS - PARTE 1
+
+
+html:
+	<body>
+		<img id="like" src="./imagens/thumbs-up.png">
+		<script src="./script.js"></script>
+	</body>
+
+
+
+
+
+javascript:
+
+	let image = document.getElementById("like");
+
+	image.addEventListener("click", function () {
+
+		image.src = "./imagens/thumbs-down.png"
+
+	})
+
+
+=> So que tem outra maneira da gente fazer isso em JAVASCRIPT:
+	setAttribute, a gente escolhe o atributo e colocar um valor ali dentro.
+
+
+	let image = document.getElementById("like");
+
+	image.addEventListener("click", function () {
+
+		image.setAttribute("src", "./imagens/thumbs-down.png")
+
+	})
+
+
+
+
+=> tambem podemos pegar um atributo
+
+
+
+	let image = document.getElementById("like");
+
+	image.addEventListener("click", function () {
+
+		let lastImage = image.getAttribute("src") //pegando o valor do atributo
+		image.setAttribute("src", "./imagens/thumbs-down.png")
+
+		console.log(lastImage )
+
+	})
+
+	
+
+
+=> Quando temos essas duas funcoes nos podemos criar atributos que nao existem,exemplo:
+
+
+	let image = document.getElementById("like");
+
+	image.addEventListener("click", function () {
+
+		image.setAttribute("cor", "vermelho");
+
+	})
+
+
+=> com o getAttribute setAttribute,permitem com q eu consiga acessar um attibuto msm se esse atributo n for um atributo esperado
+
+
+
+=> PROJETO PARA VER COMO É POSSIVEL USAR ESSAS FUNCOES:
+
+
+HTML:
+
+	<body>
+		
+		<ul id="lista" num="10">
+		
+		</ul>
+
+		<script src="./script.js"></script>
+	</body>
+
+
+
+
+JAVASCRIPT:
+	
+	let lista = document.getElementById("lista");
+	
+	let num = parseInt(lista.getAttribute("num"));
+
+
+	let conteudo = "";
+
+	for (let i = 0; i < num; i++) {
+
+		conteudo += "<li>" + i + "</li>";
+
+	}
+
+	lista.innerHTML = conteudo;
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+ATRIBUTOS PERSONALIZADOS - PARTE 2
+
+=> EXISTE UMA MANEIRA MAIS CORRETA DE PERSONALIZAR E ACESSAR OS ATRIBUTOS:
+	-> ao inves do atributo estar 'num' ponha 'data-' na frente,ficando 'data-num'
+
+
+=> colocando 'data-attr' voce pode pegar o valor do atributo usando:
+	-> console.log( lista.dataset.num )
+
+
+
+=> entao se a getnne for trabalhar com algum atributo que a gente inventou o ideal seria por o 'data-' na frente e o nome do atributo, ai vc vai poder acessar com o elemento.dataset.nomeattr
+
+
+VAMOS ADAPTAR O CODIGO PARA USARMOS DESSA NOVA FORMA:
+
+HTML:
+	<body>
+
+		<ul id="lista" data-n="25" data-id="53">
+
+		</ul>		
+
+		<script src="./script.js"></script>
+	</body>
+
+
+
+
+JAVASCRIPT:
+	let lista = document.getElementById("lista");
+
+	lista.dataset.n = "4";//podemos setar o atributo,sobrepoem o valor que esta no html
+
+	let id = parseInt(lista.getAttribute("data-id"));
+'	console.log(id);	
+
+	let num = parseInt(lista.dataset.n);
+
+
+	let conteudo = "";
+
+	for (let i = 0; i < num; i++) {
+
+		conteudo += "<li>" + i + "</li>";
+
+	}
+
+	lista.innerHTML = conteudo;
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+VIDEO
+
+
+
+<video width="540" src="./Assets/VIDEO-post.mp4"></video>
+
+
+=> para aparecer os controles do video, use o attr = controls
+
+=> para carregar o video automaticamente quando a pagina carregar,use o attr = autoplay
+
+=> para o video estar por padrao mutado,use o attr = muted;
+
+	-> em alguns navegadores o video so carrega automaticamente se estiver mutado,entao 	ponha por padrao mutado o video com o autoplay, assim ira funcionar
+
+=> para o video ficar em loop, use o attr = loop
+
+=> para por uma imagem no video, use o attr = poster=""  . depois do attr src="" 
+	-> com autoplay a imagem ira sair quando o video comecar
+
+
+=> para o video carregar na memoria do navegar, use o attr = preload="" 
+	-> ele pode receber 3 valores:
+		-> auto = quando a pagina terminar de carregar o video começara a carregar na memoria do navegador
+		-> none = o video não ira carregar quando a pagina terminar de carregar, so ira carregar quando vc clicar no play
+		-> metadata = quando a pagina terminar de carregar o video so vai carregar alguns dados, como: tamanho do video,nome do video . que não é o video em si mas os dados que veem junto com o video
+	  
+
+=> SE USAR O PRELOAD="" JUNTO COM O AUTOPLAY O PRELOAD="" VAI SER IGNORADO PQ O AUTOPLAY VAI SER MAIS IMPORTANTE
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+VIDEO - CONTROLE (parte 1)
+
+
+<head>
+	<meta ...>
+	<title>VIDEO</title>
+
+	<style>
+
+		.container {
+			position: relative;
+			width: 640px;
+			height: 360px;
+		}
+	
+		.video {
+			width: 100%;
+		}
+
+		.controle{
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			/* background-color: red; */
+			text-align: center;
+		}
+
+		.btn {
+			position: relative;
+			width: 60px;
+			/* margin: 10px; */
+			padding: 10px;
+			top: 100%;
+			transform: translateY(-100%);
+			
+		}
+
+	</style>
+</head>
+<body>
+
+	<div>
+
+		<video class="video" src="./Assets/VIDEO-post.mp4">
+
+		</video>
+
+		<div classs="controle">
+			<img class="btn" src="./assets/images/Back.png">
+			<img class="btn" src="./assets/images/Foward.png">
+			<img class="btn" src="./assets/images/Increase.png">
+			<img class="btn" src="./assets/images/Decrease.png">
+			<img class="btn" src="./assets/images/Play.png">
+			<img class="btn" src="./assets/images/Stop.png">
+
+		</div>
+
+
+	</div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+VIDEO - CCONTROLE (PARTE 2)
+
+
+HTML:
+
+
+<head>
+
+	<style>
+
+		.container {
+			position: relative;
+			width: 640px;
+			height: 360px;
+		}
+	
+		.video {
+			width: 100%;
+		}
+
+		.controle{
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			/* background-color: red; */
+			text-align: center;
+		}
+
+		.btn {
+			position: relative;
+			width: 60px;
+			/* margin: 10px; */
+			padding: 10px;
+			top: 100%;
+			transform: translateY(-100%);
+			
+		}
+
+	</style>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<video id="video1" class="video" src="./Assets/VIDEO-post.mp4">
+
+		</video>
+
+		<div class="controle">
+			<img class="btn" onclick="retroceder()" src="./assets/images/Back.png">
+			<img class="btn" onclick="avancar()" src="./assets/images/Foward.png">
+			<img class="btn" onclick="diminuir_vel()" src="./assets/images/Increase.png">
+			<img class="btn" onclick="aumentar_vel()" src="./assets/images/Decrease.png">
+			<img class="btn" onclick="play()" src="./assets/images/Play.png">
+			<img class="btn" onclick="stop()" src="./assets/images/Stop.png">
+
+		</div>
+
+	</div>
+
+	<script src="./script.js"></script>
+</body>
+
+
+
+
+
+JAVASCRIPT:
+-> script.js:
+
+
+let video = document.getElementById("video1");
+
+function retroceder() {
+	video.currentTime -= 15;
+}
+
+function avancar() {
+	video.currentTime += 15;
+}
+
+function diminuir_vel() {
+	video.playbackRate -= 0.1;
+}
+
+function aumentar_vel() {
+	video.playbackRate += 0.1;
+}
+
+function play() {
+	video.play();
+}
+
+function stop() {
+	video.pause();
+	video.currentTime = 0;
+}
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+IFRAME
+
+
+Iframe = É uma maneira de colocar o conteudo de uma outra pagina dentro da minha pagina atual.
+
+PORQUE O IFRAME É UTIL? normalmente voce n vai usar muito o IFRAME e nem recomendamos que use pq o GOOGLE nao gosta disso,A NAO SER QUE VC USE O IFRAME PARA POR UM VIDEO NA SUA PAGINA,MAS NAO QUALQUER TIPO DE VIDEO E SIM VIDEOS DO PROPRIO YOUTUBE
+
+COMO PEGAR A URL DO VIDEO DO YOUTUBE? vá em algum video do youtube,estando no video clique em "Share" ou "Compartilhar" e depois clique em "EMBED" ou "Incorporar" e ai voce copia o codigo que esta sendo mostrado para voce e ponha esse codigo no corpo(body) do seu html e assim teremos um video do youtube na nossa pagina
+
+
+EXEMPLO:
+
+
+<body>
+
+	<h1>Está página é a index</h1>
+
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/k2H3DsgE-V0" 	title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard	-	write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 	
+</body>
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+AUDIO
+
+
+Assim como no video voce pode manipular o audio, como acelerar, pausar, voltar e etc
+voce consegue utilizar todos aqueles metodos e propriedades parecido com o que temos nos videos
+
+
+<audio id="music" controls>
+	<source src="./assets/audio/ES_Breathe - Daxten.ogg" type="audio/ogg">
+	<source src="./assets/audio/ES_Breathe - Daxten.mp3" type="audio/mpeg">
+</audio>
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+ANIMACAO COM HTML
+
+
+
+vamos ver como controlar elementos graficos na tela da nossa pagina
+
+
+HTML:
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<style>
+		.tela {
+			background-color: bisque;
+			width: 500px;
+			height: 500px;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.quadrado{
+			background-color: red;
+			width: 20px;
+			height: 20px;
+			position: absolute;
+		}
+
+
+	</style>
+</head>
+<body>
+
+	<div class="tela">
+
+		<div id="jogador" class="quadrado"></div>	
+
+	</div>
+
+
+	<script src="./script.js"></script>
+
+</body>
+
+
+
+
+JAVASCRIPT:
+
+
+let jogador = document.getElementById("jogador");
+
+let xInicial = 0;
+let yInicial = 0;
+
+function moverJogadorPara(x, y) {
+
+	let posX = x + "px";
+	let posY = y + "px";
+
+	jogador.style.top = posX;
+	jogador.style.left = posY;
+
+}
+
+setInterval(function () {
+
+	moverJogadorPara(xInicial++, yInicial++);	
+
+},14);
+
+
+
+
+
+-> mas essa nao é a melhor forma de fazer desenhos ou movimentações na tela para paginas WEB,a melhor forma é usando o canvas 
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - INTRO + LINHAS
+
+
+HTML:
+
+
+<head>
+
+
+	<style>
+
+		#tela {
+			background-color: beige;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<canvas id="tela" width="500px" height="500px">
+
+	</canvas>
+
+
+<script src="script.js"></script>
+
+</body>
+
+
+
+
+JAVASCRIPT:
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+ctx.moveTo(0, 0);
+ctx.lineTo(250, 250);
+ctx.lineTo(500, 0);
+ctx.strokeStyle = "#FF0000"
+ctx.lineWidth = 5;
+ctx.stroke();
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - LARGURA X ALTURA
+
+-> É muito importante que quando voce estiver mexendo com o canvas que voce defina o tamanho dele no atributo
+
+
+
+HTML:
+
+<head>
+
+
+	<style>
+		#tela {
+			background-color: bisque;
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+
+</head>
+<body>
+
+	<canvas id="tela" width="250" height="250"></canvas>
+
+
+	<script src="./script.js"></script>
+
+</body>
+
+
+JAVASCRIPT:
+
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+ctx.moveTo(0, 0);
+ctx,lineTo(200, 200);
+ctx.stroke();
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - RETANGULO
+
+
+
+HTML:
+
+
+<head>
+
+
+	<style>
+
+		#tela {
+			background-color: beige;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<canvas id="tela" width="500px" height="500px">
+
+	</canvas>
+
+
+	<script src="script.js"></script>
+
+</body>
+
+
+
+
+JAVASCRIPT:
+
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+// ctx.fillStyle = "blue";
+// ctx.fillRect(10, 10, 100, 200);
+
+// ctx.strokeStyle = "red";
+// ctx.strokeRect(10, 10, 100, 200);
+
+
+ctx.rect(10, 10, 100, 200)
+
+ctx.fillStyle = "blue";
+ctx.lineWidth = 5;
+ctx.strokeStyle = "red";
+
+ctx.fill();
+ctx.stroke();
+
+
+ctx.clearRect(20, 20, 30, 30);
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - INICIO E FIM DO CAMINHO(PATH)
+
+
+
+JAVASCRIPT:
+
+
+let tela = documment.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+
+ctx.beginPath();
+
+
+ctx.lineWidth = 4;
+ctx.strokeStyle = "red";
+ctx.moveTo(10, 10);
+ctx.lineTo(400, 300);
+ctx.stroke();
+
+
+ctx.beginPath();
+
+
+ctx.lineWidth = 7;
+ctx.strokeStyle = "blue";
+ctx.moveTo(50, 10);
+ctx.lineTo(300, 300);
+ctx.stroke();
+
+// ---
+
+
+
+// ctx.beginPath();
+
+
+// ctx.lineWidth = 4;
+// ctx.strokeStyle = "red";
+// ctx.moveTo(10, 10);
+// ctx.lineTo(400, 300);
+// ctx.stroke();
+
+
+// ctx.lineWidth = 7;
+// ctx.strokeStyle = "blue";
+// ctx.lineTo(300, 300);
+// ctx.stroke();
+
+
+
+// ---
+
+
+
+// ctx.beginPath();
+
+
+// ctx.lineWidth = 4;
+// ctx.strokeStyle = "red";
+// ctx.moveTo(10, 10);
+// ctx.lineTo(400, 300);
+// ctx.stroke();
+
+
+// ctx.beginPath();
+
+// ctx.lineWidth = 7;
+// ctx.strokeStyle = "blue";
+// ctx.moveTo(50, 10);
+// ctx.lineTo(300, 300);
+// ctx.stroke();
+
+
+
+// ---
+
+
+
+// ctx.beginPath();
+
+// ctx.lineWidth = 4;
+// ctx.strokeStyle = "red";
+// ctx.moveTo(10, 10);
+// ctx.lineTo(400, 300);
+// ctx.stroke();
+
+
+// ctx.beginPath();
+
+// ctx.lineWidth = 7;
+// ctx.strokeStyle = "blue";
+// // ctx.fillStyle = "green";
+// ctx.moveTo(50, 100);
+// ctx.lineTo(300, 300);
+// ctx.lineTo(200, 300);
+// // ctx.closePath();
+// // ctx.fill();
+// ctx.stroke();
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - CIRCLES
+
+
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+
+// let x = 250;
+// let y = 250;
+// let raio = 100;
+
+// let inicio = 0;
+// let fim = 2 * Math.PI;
+
+
+// ctx.beginPath();
+// ctx.strokeStyle = "red";
+
+// ctx.arc(x, y, raio, inicio, fim);
+
+// ctx.stroke();
+
+
+
+
+let x = 250;
+let y = 250;
+let raio = 100;
+
+let inicio = 0;
+let fim = 1.5 * Math.PI;
+
+
+ctx.beginPath();
+ctx.strokeStyle = "red";
+ctx.fillStyle = "blue";
+ctx.arc(x, y, raio, inicio, fim);
+
+ctx.fill();
+ctx.stroke();
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - ANIMACAO
+
+
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+let circle = {
+	x: 250,
+	y: 250,
+	raio: 100,
+	inicio: 0,
+	fim: 0,
+	antiHor: true,
+}
+
+
+function drawCircle(c) {
+
+	ctx.beginPath();
+	ctx.rect(0, 0, 500, 500);
+	ctx.fillStyle = "beige";
+	ctx.fill();
+
+	
+	ctx.beginPath();
+	ctx.strokeStyle = "red";
+	ctx.fillStyle = "blue";
+	ctx.arc(c.x, c.y, c.raio, c.inicio, c.fim, c.antiHor);
+	ctx.fill();
+	ctx.stroke();
+
+}
+
+
+setInterval(function () {
+
+	if (circle.fim < 2 * Math.PI) {
+		circle.fim += 0.3;
+		circle.x += 3;
+	}
+
+	drawCircle(circle);
+
+}, 400);
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+CANVAS - IMAGENS
+
+
+HTML:
+
+
+<head>
+
+
+
+	<style>
+		#tela {
+			background-color: bisque;
+			
+			position: relative;
+			overflow: hidden;
+		}
+	</style>	
+
+</head>
+
+<body>
+
+	<canvas id="tela" width="500" height="500">
+
+	</canvas>
+
+
+	<script src="./script.js"></script>
+</body>
+
+
+
+
+JAVASCRIPT:
+
+
+let tela = document.getElementById("tela");
+
+let ctx = tela.getContext("2d");
+
+let img = new Image();
+img.src = "./imagens/redd.png";
+
+img.onload = desenharImg;
+
+function desenharImg(){
+
+	ctx.drawImage(this, 20, 20, this.naturaWidth/2, this.naturaHeight/2);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
